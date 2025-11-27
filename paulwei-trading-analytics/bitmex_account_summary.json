@@ -1,0 +1,24 @@
+{
+  "exportDate": "2025-11-24T21:22:47.257Z",
+  "user": {
+    "id": 1501242,
+    "username": "indigogo",
+    "email": ""
+  },
+  "wallet": {
+    "walletBalance": null,
+    "marginBalance": 26.96317382,
+    "availableMargin": 26.75047847,
+    "unrealisedPnl": 0.15596867,
+    "realisedPnl": 0
+  },
+  "positions": [
+    {
+      "symbol": "XBTUSD",
+      "currentQty": 230400,
+      "avgEntryPrice": 83853.2233,
+      "unrealisedPnl": 0.15596867,
+      "liquidationPrice": 7852.2
+    }
+  ]
+}
