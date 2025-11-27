@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* --- 全局变量定义 --- */
+:root {
+  /* 基础色彩：强制深色模式以适应专业交易终端风格 */
+  --bg-dark: #050608;
+  --foreground-light: #e5e7eb;
+
+  /* 核心色彩系统 */
+  --background: var(--bg-dark);
+  --foreground: var(--foreground-light);
+  
+  /* 玻璃拟态核心变量 */
+  --glass-bg: rgba(20, 25, 35, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-card-hover: rgba(30, 35, 45, 0.75);
+
+  /* 霓虹强调色 */
+  --neon-green: #00ff9d;
+  --neon-red: #ff3b30;
+  --neon-blue: #3b82f6;
+
+  /* Shadcn UI 兼容变量 (适配现有组件) */
+  --card: var(--glass-bg);
+  --card-foreground: var(--foreground-light);
+  --popover: var(--glass-bg);
+  --popover-foreground: var(--foreground-light);
+  
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  
+  --secondary: rgba(255, 255, 255, 0.1);
+  --secondary-foreground: #f8fafc;
+  
+  --muted: rgba(0, 0, 0, 0.3);
+  --muted-foreground: #94a3b8;
+  
+  --accent: rgba(59, 130, 246, 0.15);
+  --accent-foreground: #3b82f6;
+  
+  --destructive: #7f1d1d;
+  --destructive-foreground: #f8fafc;
+  
+  --border: var(--glass-border);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #3b82f6;
+  --radius: 0.75rem;
+}
+
+/* --- 全局样式重置 --- */
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* 科技感背景纹理：径向光晕 + 微弱网格 */
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-attachment: fixed;
+}
+
+/* --- 核心组件类 (Components) --- */
+
+/* 1. 终极玻璃拟态面板 (用于卡片、容器) */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* 2. 交互式玻璃卡片 (带悬停效果) */
+.glass-card-hover {
+  transition: all 0.3s ease;
+}
+.glass-card-hover:hover {
+  background: var(--glass-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 3. 霓虹发光文字 (用于 PnL 和状态) */
+.text-glow-green { text-shadow: 0 0 15px rgba(0, 255, 157, 0.4); }
+.text-glow-red { text-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
+.text-glow-blue { text-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+
+/* 4. 入场动画 */
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 自定义滚动条 (极简风格) --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* --- 播放器进度条美化 (Range Input) --- */
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+/* 滑块轨道 */
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* 滑块按钮 */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  margin-top: -5px; /* 居中对齐轨道 */
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
