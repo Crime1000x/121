@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PolyArena Frontend Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>PolyArena 前端测试</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        async function testAPI() {
+            results.innerHTML += '<h2>测试 1: API Endpoint</h2>';
+
+            try {
+                const response = await fetch('http://localhost:3004/api/polymarket?tag=NBA&limit=2');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                results.innerHTML += `<p class="success">✅ API 返回成功</p>`;
+                results.innerHTML += `<p class="info">返回 ${data.length} 个市场</p>`;
+
+                if (data.length > 0) {
+                    const event = data[0];
+                    results.innerHTML += `<p class="info">第一个市场标题: ${event.title}</p>`;
+                    results.innerHTML += `<p class="info">Series: ${JSON.stringify(event.series)}</p>`;
+                    results.innerHTML += `<p class="info">Markets: ${event.markets ? 'Yes' : 'No'}</p>`;
+                }
+
+                return data;
+            } catch (error) {
+                results.innerHTML += `<p class="error">❌ API 错误: ${error.message}</p>`;
+                return null;
+            }
+        }
+
+        async function testDataTransformation() {
+            results.innerHTML += '<h2>测试 2: 数据转换</h2>';
+
+            const data = await testAPI();
+            if (!data || data.length === 0) {
+                results.innerHTML += '<p class="error">❌ 无数据可测试</p>';
+                return;
+            }
+
+            const event = data[0];
+
+            // 模拟 eventToArenaMarket 的逻辑
+            let sportName = 'Sports';
+            if (Array.isArray(event.series) && event.series.length > 0) {
+                sportName = event.series[0].title || event.series[0].ticker || 'Sports';
+            } else if (typeof event.series === 'string') {
+                sportName = event.series;
+            }
+
+            results.innerHTML += `<p class="success">✅ 运动类型提取成功: ${sportName}</p>`;
+            results.innerHTML += `<p class="info">类型检查: ${typeof sportName === 'string' ? '字符串 ✅' : '对象 ❌'}</p>`;
+
+            if (typeof sportName !== 'string') {
+                results.innerHTML += `<p class="error">❌ 错误！sport 应该是字符串，但是: ${typeof sportName}</p>`;
+            }
+        }
+
+        async function runAllTests() {
+            results.innerHTML = '<p class="info">🧪 开始测试...</p>';
+            await testDataTransformation();
+            results.innerHTML += '<h2>测试完成</h2>';
+            results.innerHTML += '<p class="info">现在可以打开 <a href="http://localhost:3004" target="_blank">http://localhost:3004</a> 查看实际页面</p>';
+        }
+
+        runAllTests();
+    </script>
+</body>
+</html>
